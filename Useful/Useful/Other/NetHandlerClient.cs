@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using System.Text;
 
-namespace Useful
+namespace Useful.Other
 {
   public class NetHandlerClient
   {

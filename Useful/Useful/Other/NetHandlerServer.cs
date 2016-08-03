@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Useful
+namespace Useful.Other
 {
   public class NetHandlerServer
   {

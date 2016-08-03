@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Useful.Other;
 
 namespace Useful.Plotting.Projections
 {

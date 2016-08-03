@@ -1,4 +1,4 @@
-﻿namespace Useful
+﻿namespace Useful.Other
 {
   public interface ISendable
   {

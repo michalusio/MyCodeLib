@@ -37,14 +37,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
-    <Compile Include="NetHandlerClient.cs" />
-    <Compile Include="ISendable.cs" />
-    <Compile Include="NetHandlerServer.cs" />
-    <Compile Include="Bmp.cs" />
-    <Compile Include="Pixel.cs" />
-    <Compile Include="Hashing.cs" />
-    <Compile Include="MMath.cs" />
+    <Compile Include="Other\Logger.cs" />
+    <Compile Include="Other\NetHandlerClient.cs" />
+    <Compile Include="Other\ISendable.cs" />
+    <Compile Include="Other\NetHandlerServer.cs" />
+    <Compile Include="Other\Bmp.cs" />
+    <Compile Include="Other\Pixel.cs" />
+    <Compile Include="Other\Hashing.cs" />
+    <Compile Include="Other\MMath.cs" />
     <Compile Include="Plotting\Figures.cs" />
     <Compile Include="Plotting\Animator.cs" />
     <Compile Include="Plotting\DistComparer.cs" />

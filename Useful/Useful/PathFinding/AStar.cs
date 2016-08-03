@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Useful.DataStructures;
+using Useful.Other;
 
 namespace Useful.PathFinding
 {

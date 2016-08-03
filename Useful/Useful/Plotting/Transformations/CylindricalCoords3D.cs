@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Useful.Other;
 
 namespace Useful.Plotting.Transformations
 {

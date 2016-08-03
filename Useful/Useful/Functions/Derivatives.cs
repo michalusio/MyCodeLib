@@ -1,4 +1,6 @@
-﻿namespace Useful.Functions
+﻿using Useful.Other;
+
+namespace Useful.Functions
 {
   public static class Derivatives
   {

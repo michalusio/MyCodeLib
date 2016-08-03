@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Useful
+namespace Useful.Other
 {
   public static class Logger
   {

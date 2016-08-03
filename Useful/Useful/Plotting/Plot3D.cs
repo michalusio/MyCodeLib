@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using Useful.Functions;
+using Useful.Other;
 using Useful.Plotting.Transformations;
 
 namespace Useful.Plotting

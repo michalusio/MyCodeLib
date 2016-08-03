@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Useful
+namespace Useful.Other
 {
   public class Pixel
   {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Threading;
 
-namespace Useful
+namespace Useful.Other
 {
   public static class MMath
   {

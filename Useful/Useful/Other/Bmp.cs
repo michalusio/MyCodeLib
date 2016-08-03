@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Useful
+namespace Useful.Other
 {
   public static class Bmp
   {
