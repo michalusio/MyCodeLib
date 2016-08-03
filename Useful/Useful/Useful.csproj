@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Users\isals\Desktop\TheLongPath\LongPath\LongPath\Useful.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{56E7F723-FF6B-4C12-97CA-6773BA86113B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Useful</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>Useful</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Logger.cs" />
+    <Compile Include="NetHandlerClient.cs" />
+    <Compile Include="ISendable.cs" />
+    <Compile Include="NetHandlerServer.cs" />
+    <Compile Include="Bmp.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="Hashing.cs" />
+    <Compile Include="MMath.cs" />
+    <Compile Include="Plotting\Figures.cs" />
+    <Compile Include="Plotting\Animator.cs" />
+    <Compile Include="Plotting\DistComparer.cs" />
+    <Compile Include="Plotting\Plot3D.cs" />
+    <Compile Include="Plotting\Plot2D.cs" />
+    <Compile Include="Plotting\PPoint3D.cs" />
+    <Compile Include="Plotting\PPoint2D.cs" />
+    <Compile Include="Plotting\Range.cs" />
+    <Compile Include="Plotting\Rectangle3D.cs" />
+    <Compile Include="Plotting\Transform3DList.cs" />
+    <Compile Include="Plotting\Transform2DList.cs" />
+    <Compile Include="Plotting\Transformations\MobiusTransform2D.cs" />
+    <Compile Include="Plotting\Transformations\Normalization3D.cs" />
+    <Compile Include="Plotting\Transformations\Normalization2D.cs" />
+    <Compile Include="Plotting\Transformations\CylindricalCoords3D.cs" />
+    <Compile Include="Plotting\Transformations\PolarCoords2D.cs" />
+    <Compile Include="Plotting\Transformations\SphereCoords3D.cs" />
+    <Compile Include="Plotting\Transformations\SphereCoords2D.cs" />
+    <Compile Include="Plotting\Transformations\Rotation3D.cs" />
+    <Compile Include="Plotting\Transformations\Rotation2D.cs" />
+    <Compile Include="Plotting\Transformations\Scale3D.cs" />
+    <Compile Include="Plotting\Transformations\Scale2D.cs" />
+    <Compile Include="Plotting\Transformations\ITransformation3D.cs" />
+    <Compile Include="Plotting\Transformations\INvertibleTransformation3D.cs" />
+    <Compile Include="Plotting\Transformations\ITransformation2D.cs" />
+    <Compile Include="Plotting\Transformations\INvertibleTransformation2D.cs" />
+    <Compile Include="Plotting\Transformations\Translation3D.cs" />
+    <Compile Include="Plotting\Transformations\Translation2D.cs" />
+    <Compile Include="Plotting\Projections\StereographicProj.cs" />
+    <Compile Include="Plotting\Projections\CurvilinearProj.cs" />
+    <Compile Include="Plotting\Projections\PerspectiveProj.cs" />
+    <Compile Include="PathFinding\AreaFill.cs" />
+    <Compile Include="PathFinding\AStar.cs" />
+    <Compile Include="PathFinding\MainNode.cs" />
+    <Compile Include="PathFinding\HashNode.cs" />
+    <Compile Include="PathFinding\IAreaNode.cs" />
+    <Compile Include="PathFinding\Manhattan2DNode.cs" />
+    <Compile Include="PathFinding\Point2D.cs" />
+    <Compile Include="PathFinding\Point3D.cs" />
+    <Compile Include="Functions\Derivatives.cs" />
+    <Compile Include="Functions\ExpressionTree.cs" />
+    <Compile Include="Functions\TreeNode.cs" />
+    <Compile Include="Functions\Onp.cs" />
+    <Compile Include="DataStructures\Set.cs" />
+    <Compile Include="DataStructures\Heap.cs" />
+    <Compile Include="DataStructures\HeapNode.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

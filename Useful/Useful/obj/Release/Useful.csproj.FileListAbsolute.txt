@@ -1,0 +1,4 @@
+C:\Users\isals\Desktop\Useful\Useful\bin\Release\Useful.dll
+C:\Users\isals\Desktop\Useful\Useful\bin\Release\Useful.pdb
+C:\Users\isals\Desktop\Useful\Useful\obj\Release\Useful.dll
+C:\Users\isals\Desktop\Useful\Useful\obj\Release\Useful.pdb
