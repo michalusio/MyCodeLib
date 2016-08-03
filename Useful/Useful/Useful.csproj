@@ -82,8 +82,6 @@
     <Compile Include="PathFinding\HashNode.cs" />
     <Compile Include="PathFinding\IAreaNode.cs" />
     <Compile Include="PathFinding\Manhattan2DNode.cs" />
-    <Compile Include="PathFinding\Point2D.cs" />
-    <Compile Include="PathFinding\Point3D.cs" />
     <Compile Include="Functions\Derivatives.cs" />
     <Compile Include="Functions\ExpressionTree.cs" />
     <Compile Include="Functions\TreeNode.cs" />
