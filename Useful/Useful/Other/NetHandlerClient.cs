@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Useful.Other
 {
-  public class NetHandlerClient
+    /// <summary>
+    /// Class utilising a Tcp client connection.
+    /// </summary>
+    public class NetHandlerClient
   {
     private TcpClient _client;
     private Socket _socket;
@@ -12,9 +15,15 @@ namespace Useful.Other
     private int _port;
     private IAsyncResult _connectResult;
 
+    /// <summary>
+    /// Is client open?
+    /// </summary>
     public bool Available => _client?.Available > 0;
 
-      public bool Connected
+    /// <summary>
+    /// Is client connected? Performs ping.
+    /// </summary>
+    public bool Connected
     {
       get
       {
@@ -25,14 +34,25 @@ namespace Useful.Other
         return true;
       }
     }
-
+    /// <summary>
+    /// Returns Timeout time.
+    /// </summary>
     public int TimeOut { get; private set; }
 
     public NetHandlerClient()
     {
       TimeOut = -1;
     }
-
+    /// <summary>
+    /// Open a client on given port.
+    /// <para>Returns:
+    /// <para> 0: if everything went good.</para>
+    /// <para>-1: if port is not vacant.</para>
+    /// <para>-2: if connection could not be started.</para>
+    /// </para>
+    /// </summary>
+    /// <param name="ip">IP of server to connect to</param>
+    /// <param name="port">Port to open a server (1024-65535)</param>
     public int Open(string ip, int port)
     {
       _ip = ip;
@@ -51,7 +71,10 @@ namespace Useful.Other
       }
       return 0;
     }
-
+    
+    /// <summary>
+    /// Attempts to reconnect after disconnecting.
+    /// </summary>
     public void AttemptReconnect()
     {
       switch (TimeOut)
@@ -83,7 +106,10 @@ namespace Useful.Other
           break;
       }
     }
-
+    
+    /// <summary>
+    /// Closes the socket and net client.
+    /// </summary>
     public void Close()
     {
         _socket?.Close();
@@ -91,66 +117,33 @@ namespace Useful.Other
         _socket = null;
       _client = null;
     }
-
-    public void Send(int data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 105;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _socket.Send(buffer);
-    }
-
-    public void Send(long data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 108;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _socket.Send(buffer);
-    }
-
-    public void Send(byte data)
-    {
-      _socket.Send(new []{ (byte) 98, data });
-    }
-
+    
+    /// <summary>
+    /// Sends a byte array to server.
+    /// </summary>
+    /// <param name="data">Array to be sent</param>
     public void Send(byte[] data)
-    {
-      byte[] buffer = new byte[1 + data.Length];
-      buffer[0] = 66;
-      data.CopyTo(buffer, 1);
-      _socket.Send(buffer);
-    }
-
-    public void SendRaw(byte[] data)
     {
       _socket.Send(data);
     }
-
-    public void Send(float data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 102;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _socket.Send(buffer);
-    }
-
-    public void Send(double data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 100;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _socket.Send(buffer);
-    }
-
+    
+    /// <summary>
+    /// Sends a string to server.
+    /// </summary>
+    /// <param name="data">String to be sent</param>
     public void Send(string data)
     {
       byte[] buffer = new byte[(data.Length << 1) + 2];
-      buffer[0] = 115;
-      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 1);
+      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 0);
       buffer[buffer.Length - 1] = 0;
+      buffer[buffer.Length - 2] = 0;
       _socket.Send(buffer);
     }
-
+    
+    /// <summary>
+    /// Sends an object to server.
+    /// </summary>
+    /// <param name="data">Object to be sent</param>
     public void Send(ISendable data)
     {
       byte[] buffer = new byte[data.ByteLength() + 1];
@@ -158,14 +151,21 @@ namespace Useful.Other
       data.GetBytes().CopyTo(buffer, 1);
       _socket.Send(buffer);
     }
-
+    
+    /// <summary>
+    /// Receives one byte from the server.
+    /// </summary>
     public byte Receive()
     {
       byte[] buffer = new byte[1];
       _socket.Receive(buffer);
       return buffer[0];
     }
-
+    
+    /// <summary>
+    /// Receives a byte array from the server.
+    /// </summary>
+    /// <param name="length">The length of received array</param>
     public byte[] Receive(int length)
     {
       byte[] buffer1 = new byte[length];

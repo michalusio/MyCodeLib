@@ -33,17 +33,17 @@ namespace Useful.Other
         return (uint) _sockets[id].Available > 0U;
       return true;
     }
-        /// <summary>
-        /// Open a server on given port.
-        /// <para>Returns:
-        /// <para> 0: if everything went good.</para>
-        /// <para>-1: if IPAddress could not be received.</para>
-        /// <para>-2: if port is not vacant.</para>
-        /// <para>-3: if listening could not be started.</para>
-        /// </para>
-        /// </summary>
-        /// <param name="port">Port to open a server (1024-65535)</param>
-        public int Open(short port)
+    /// <summary>
+    /// Open a server on given port.
+    /// <para>Returns:
+    /// <para> 0: if everything went good.</para>
+    /// <para>-1: if IPAddress could not be received.</para>
+    /// <para>-2: if port is not vacant.</para>
+    /// <para>-3: if listening could not be started.</para>
+    /// </para>
+    /// </summary>
+    /// <param name="port">Port to open a server (1024-65535)</param>
+    public int Open(short port)
     {
       IPAddress localaddr;
       try
@@ -143,7 +143,7 @@ namespace Useful.Other
     /// </summary>
     /// <param name="client">ID of a client to send the data to</param>
     /// <param name="data">Byte array to be sent</param>
-    public void SendRaw(int client, byte[] data)
+    public void Send(int client, byte[] data)
     {
       _sockets[client].Send(data);
     }
@@ -152,7 +152,7 @@ namespace Useful.Other
     /// Send raw byte array to all clients.
     /// </summary>
     /// <param name="data">Byte array to be sent</param>
-    public void SendRawAll(byte[] data)
+    public void SendAll(byte[] data)
     {
       foreach (Socket socket in _sockets)
         socket.Send(data);
@@ -163,7 +163,7 @@ namespace Useful.Other
     /// </summary>
     /// <param name="client">ID of a client who is not receiving the data.</param>
     /// <param name="data">Byte array to be sent</param>
-    public void SendRawAllBut(int client, byte[] data)
+    public void SendAllBut(int client, byte[] data)
     {
       for (int index = 0; index < _sockets.Count; ++index)
       {
@@ -172,200 +172,43 @@ namespace Useful.Other
       }
     }
 
-    public void Send(int client, int data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 105;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(int data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 105;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, int data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 105;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
-    public void Send(int client, long data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 108;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(long data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 108;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, long data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 108;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
-    public void Send(int client, byte data)
-    {
-      byte[] buffer = { 98, data };
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(byte data)
-    {
-      byte[] buffer = { 98, data };
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, byte data)
-    {
-      byte[] buffer = { 98, data };
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
-    public void Send(int client, byte[] data)
-    {
-      byte[] buffer = new byte[1 + data.Length];
-      buffer[0] = 66;
-      data.CopyTo(buffer, 1);
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(byte[] data)
-    {
-      byte[] buffer = new byte[1 + data.Length];
-      buffer[0] = 66;
-      data.CopyTo(buffer, 1);
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, byte[] data)
-    {
-      byte[] buffer = new byte[1 + data.Length];
-      buffer[0] = 66;
-      data.CopyTo(buffer, 1);
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
-    public void Send(int client, float data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 102;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(float data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 102;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, float data)
-    {
-      byte[] buffer = new byte[5];
-      buffer[0] = 102;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
-    public void Send(int client, double data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 100;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      _sockets[client].Send(buffer);
-    }
-
-    public void SendAll(double data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 100;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      foreach (Socket socket in _sockets)
-        socket.Send(buffer);
-    }
-
-    public void SendAllBut(int client, double data)
-    {
-      byte[] buffer = new byte[9];
-      buffer[0] = 100;
-      BitConverter.GetBytes(data).CopyTo(buffer, 1);
-      for (int index = 0; index < _sockets.Count; ++index)
-      {
-        if (index != client)
-          _sockets[index].Send(buffer);
-      }
-    }
-
+    /// <summary>
+    /// Sends a string to given client.
+    /// </summary>
+    /// <param name="client">ID of a client to send the data to</param>
+    /// <param name="data">String to be sent</param>
     public void Send(int client, string data)
     {
-      byte[] buffer = new byte[(data.Length << 1) + 3];
-      buffer[0] = 115;
-      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 1);
+      byte[] buffer = new byte[(data.Length << 1) + 2];
+      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 0);
       buffer[buffer.Length - 2] = 0;
       buffer[buffer.Length - 1] = 0;
       _sockets[client].Send(buffer);
     }
 
+    /// <summary>
+    /// Send a string to all clients.
+    /// </summary>
+    /// <param name="data">String to be sent</param>
     public void SendAll(string data)
     {
-      byte[] buffer = new byte[(data.Length << 1) + 3];
-      buffer[0] = 115;
-      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 1);
+      byte[] buffer = new byte[(data.Length << 1) + 2];
+      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 0);
       buffer[buffer.Length - 2] = 0;
       buffer[buffer.Length - 1] = 0;
       foreach (Socket socket in _sockets)
         socket.Send(buffer);
     }
 
+    /// <summary>
+    /// Sends a string to any clients but given.
+    /// </summary>
+    /// <param name="client">ID of a client who is not receiving the data.</param>
+    /// <param name="data">String to be sent</param>
     public void SendAllBut(int client, string data)
     {
-      byte[] buffer = new byte[(data.Length << 1) + 3];
-      buffer[0] = 115;
-      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 1);
+      byte[] buffer = new byte[(data.Length << 1) + 2];
+      Encoding.Unicode.GetBytes(data).CopyTo(buffer, 0);
       buffer[buffer.Length - 2] = 0;
       buffer[buffer.Length - 1] = 0;
       for (int index = 0; index < _sockets.Count; ++index)
@@ -375,6 +218,11 @@ namespace Useful.Other
       }
     }
 
+    /// <summary>
+    /// Sends an object to given client.
+    /// </summary>
+    /// <param name="client">ID of a client to send the data to</param>
+    /// <param name="data">Object to be sent</param>
     public void Send(int client, ISendable data)
     {
       byte[] buffer = new byte[data.ByteLength() + 1];
@@ -383,6 +231,10 @@ namespace Useful.Other
       _sockets[client].Send(buffer);
     }
 
+    /// <summary>
+    /// Send an object to all clients.
+    /// </summary>
+    /// <param name="data">Object to be sent</param>
     public void SendAll(ISendable data)
     {
       byte[] buffer = new byte[data.ByteLength() + 1];
@@ -392,6 +244,11 @@ namespace Useful.Other
         socket.Send(buffer);
     }
 
+    /// <summary>
+    /// Sends an object to any clients but given.
+    /// </summary>
+    /// <param name="client">ID of a client who is not receiving the data.</param>
+    /// <param name="data">Object to be sent</param>
     public void SendAllBut(int client, ISendable data)
     {
       byte[] buffer = new byte[data.ByteLength() + 1];
@@ -403,7 +260,11 @@ namespace Useful.Other
           _sockets[index].Send(buffer);
       }
     }
-
+    
+    /// <summary>
+    /// Receive one byte from any client connected.
+    /// <para>Returns KeyValuePair with client ID and received byte.</para>
+    /// </summary>
     public KeyValuePair<int, byte> Receive()
     {
       for (int index = 0; index < _sockets.Count; ++index)
@@ -413,7 +274,11 @@ namespace Useful.Other
       }
       return new KeyValuePair<int, byte>(-1, 0);
     }
-
+    
+    /// <summary>
+    /// Receives one byte from given client.
+    /// </summary>
+    /// <param name="client">ID of a client from which to receive byte</param>
     public byte Receive(int client)
     {
       byte[] buffer = new byte[1];
@@ -421,6 +286,11 @@ namespace Useful.Other
       return buffer[0];
     }
 
+    /// <summary>
+    /// Receive byte array from given client.
+    /// </summary>
+    /// <param name="client">ID of a client from which to receive byte</param>
+    /// <param name="length">Length of received array</param>
     public byte[] Receive(int client, int length)
     {
       byte[] buffer1 = new byte[length];

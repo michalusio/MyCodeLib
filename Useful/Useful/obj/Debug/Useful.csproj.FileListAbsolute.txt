@@ -6,4 +6,3 @@ C:\Users\isals\Desktop\MyCodeLib\Useful\Useful\bin\Debug\Useful.dll
 C:\Users\isals\Desktop\MyCodeLib\Useful\Useful\bin\Debug\Useful.pdb
 C:\Users\isals\Desktop\MyCodeLib\Useful\Useful\obj\Debug\Useful.dll
 C:\Users\isals\Desktop\MyCodeLib\Useful\Useful\obj\Debug\Useful.pdb
-C:\Users\isals\Desktop\MyCodeLib\Useful\Useful\obj\Debug\Useful.csprojResolveAssemblyReference.cache

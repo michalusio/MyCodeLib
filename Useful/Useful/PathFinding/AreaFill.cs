@@ -2,11 +2,18 @@
 
 namespace Useful.PathFinding
 {
+    /// <summary>
+    /// Class containing area division algorithm
+    /// </summary>
   public class AreaFill
   {
     private readonly List<HashSet<IAreaNode>> _areas = new List<HashSet<IAreaNode>>();
     private readonly Queue<IAreaNode> _q = new Queue<IAreaNode>();
-
+    
+    /// <summary>
+    /// Section grid by generating areas using FloodFill.
+    /// </summary>
+    /// <param name="fields">Array forming 2D grid</param>
     public void GenerateAreas(IAreaNode[][] fields)
     {
       _areas.Clear();
@@ -40,7 +47,11 @@ namespace Useful.PathFinding
         }
       }
     }
-
+    
+    /// <summary>
+    /// Checks in what area the node resides.
+    /// </summary>
+    /// <param name="x">The node to be checked</param>
     public int GetArea(IAreaNode x)
     {
       for (int index = 0; index < _areas.Count; ++index)

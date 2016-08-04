@@ -3,11 +3,17 @@ using System.Collections.Generic;
 
 namespace Useful.PathFinding
 {
-  public class Manhattan2DNode : MainNode
+  public class Manhattan2DNode : MainNode,IAreaNode
   {
     public static Manhattan2DNode[][] Map;
     public byte Wall;
     public static bool CanDiagonal;
+
+    public byte Id { get; set; }
+
+    public short X { get; set; }
+
+    public short Y { get; set; }
 
     public Manhattan2DNode()
     {
@@ -25,7 +31,7 @@ namespace Useful.PathFinding
       return "M2DN(" +  X + "|" +  Y + ")";
     }
 
-    public override IEnumerable<MainNode> GetNeighbors()
+    internal override IEnumerable<MainNode> GetNeighbors()
     {
       List<Manhattan2DNode> manhattan2DnodeList = new List<Manhattan2DNode>();
       if (InBounds(X + 1, Y) && Map[X + 1][Y].Wall!=0xFF)

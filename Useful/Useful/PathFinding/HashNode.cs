@@ -1,54 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Useful.PathFinding
 {
-  public class HashNode : MainNode
+    /// <summary>
+    /// Node using distinct neighbor lists.
+    /// </summary>
+  public abstract class HashNode : MainNode
   {
+    /// <summary>
+    /// Set of connected nodes.
+    /// </summary>
     public HashSet<HashNode> Connected = new HashSet<HashNode>();
 
-    public HashNode()
-    {
-    }
+    /// <summary>
+    /// ID of a node distinguishing it from the rest.
+    /// </summary>
+    public short Id;
 
-    public HashNode(byte id, short x, short y)
-    {
-      Id = id;
-      X = x;
-      Y = y;
-    }
-
-    public HashNode(byte id, HashSet<HashNode> tab)
-    {
-      Id = id;
-      Connected = tab;
-    }
-
-    public override string ToString()
-    {
-      return "HN(" + Id + "|" + X + "|" + Y + ")";
-    }
-
-    public override IEnumerable<MainNode> GetNeighbors()
+    internal override IEnumerable<MainNode> GetNeighbors()
     {
       return Connected;
     }
-
+    
+    /// <summary>
+    /// Checks if two nodes are equal.
+    /// </summary>
+    /// <param name="b">Second node to check</param>
     public override bool NodeEqual(MainNode b)
     {
       return ((HashNode) b).Id == Id;
-    }
-
-    public override float Distance(MainNode b)
-    {
-      HashNode hashNode = (HashNode) b;
-      return Math.Abs(hashNode.X - X) + Math.Abs(hashNode.Y - Y);
-    }
-
-    public override float Heuristic(MainNode goal)
-    {
-      HashNode hashNode = (HashNode) goal;
-      return Math.Abs(hashNode.X - X) + Math.Abs(hashNode.Y - Y);
     }
   }
 }
