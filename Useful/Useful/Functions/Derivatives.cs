@@ -2,8 +2,16 @@
 
 namespace Useful.Functions
 {
+    /// <summary>
+    /// Class for differentiating equations.
+    /// </summary>
   public static class Derivatives
   {
+    /// <summary>
+    /// Differentiates equation and returns the result.
+    /// </summary>
+    /// <param name="q">TreeNode with equation</param>
+    /// <param name="x">Variable to differentiate from</param>
     public static TreeNode Differentiate(TreeNode q, char x)
     {
       if (q.Element.Length == 1 && q.Element[0] == x)

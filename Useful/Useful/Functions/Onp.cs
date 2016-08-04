@@ -6,6 +6,9 @@ using Useful.Other;
 
 namespace Useful.Functions
 {
+    /// <summary>
+    /// Class used to parse and solve string formulas
+    /// </summary>
   public class Onp
   {
     internal readonly Dictionary<char, int> Figures = new Dictionary<char, int>();
@@ -84,7 +87,11 @@ namespace Useful.Functions
       FigureDictionary.Add("ln(", "L(");
       Figures.Add('(', 7);
     }
-
+    
+    /// <summary>
+    /// Parses formula to queue of operations.
+    /// </summary>
+    /// <param name="formula">Formula to parse</param>
     public Queue<string> Parse(string formula)
     {
       StringBuilder stringBuilder = new StringBuilder(formula.ToLowerInvariant());
@@ -159,11 +166,16 @@ namespace Useful.Functions
         stringQueue.Enqueue(source.Pop().ToString());
       return stringQueue;
     }
-
-    public double Solve(Queue<string> onPformula, Dictionary<char, double> x)
+    
+    /// <summary>
+    /// Solves given formula with given variables.
+    /// </summary>
+    /// <param name="formula">Queue to solve</param>
+    /// <param name="x">Variable dictionary</param>
+    public double Solve(Queue<string> formula, Dictionary<char, double> x)
     {
       Stack<double> source = new Stack<double>();
-      foreach (string str in onPformula)
+      foreach (string str in formula)
       {
         if (str.Length == 1)
         {
@@ -301,10 +313,15 @@ namespace Useful.Functions
       return source.Pop();
     }
 
-    public double Solve(Queue<string> onPformula, double x)
+    /// <summary>
+    /// Solves given formula with given variable.
+    /// </summary>
+    /// <param name="formula">Queue to solve</param>
+    /// <param name="x">Variable</param>
+    public double Solve(Queue<string> formula, double x)
     {
       Stack<double> source = new Stack<double>();
-      foreach (string str in onPformula)
+      foreach (string str in formula)
       {
         if (str.Length == 1)
         {
@@ -313,7 +330,7 @@ namespace Useful.Functions
             source.Push(x);
           else if (Figures.ContainsKey(ch))
           {
-            if (ch <= 85U)
+              if (ch <= 85U)
             {
               switch (ch)
               {
@@ -387,38 +404,35 @@ namespace Useful.Functions
                   continue;
               }
             }
-            else
-            {
               switch (ch)
               {
-                case '[':
-                  double num9 = source.Pop();
-                  double num10 = source.Pop();
-                  source.Push(num10 <= num9 ? 1.0 : 0.0);
-                  continue;
-                case ']':
-                  double num11 = source.Pop();
-                  double num12 = source.Pop();
-                  source.Push(num12 >= num11 ? 1.0 : 0.0);
-                  continue;
-                case '^':
-                  double y = source.Pop();
-                  source.Push(Math.Pow(source.Pop(), y));
-                  continue;
-                case '{':
-                  double num13 = source.Pop();
-                  double num14 = source.Pop();
-                  source.Push(Math.Abs(num14 - num13) > 2.80259692864963E-45 ? 1.0 : 0.0);
-                  continue;
-                case '}':
-                  double num15 = source.Pop();
-                  double num16 = source.Pop();
-                  source.Push(Math.Abs(num16 - num15) < 2.80259692864963E-45 ? 1.0 : 0.0);
-                  continue;
-                default:
-                  continue;
+                  case '[':
+                      double num9 = source.Pop();
+                      double num10 = source.Pop();
+                      source.Push(num10 <= num9 ? 1.0 : 0.0);
+                      continue;
+                  case ']':
+                      double num11 = source.Pop();
+                      double num12 = source.Pop();
+                      source.Push(num12 >= num11 ? 1.0 : 0.0);
+                      continue;
+                  case '^':
+                      double y = source.Pop();
+                      source.Push(Math.Pow(source.Pop(), y));
+                      continue;
+                  case '{':
+                      double num13 = source.Pop();
+                      double num14 = source.Pop();
+                      source.Push(Math.Abs(num14 - num13) > 2.80259692864963E-45 ? 1.0 : 0.0);
+                      continue;
+                  case '}':
+                      double num15 = source.Pop();
+                      double num16 = source.Pop();
+                      source.Push(Math.Abs(num16 - num15) < 2.80259692864963E-45 ? 1.0 : 0.0);
+                      continue;
+                  default:
+                      continue;
               }
-            }
           }
           else
           {

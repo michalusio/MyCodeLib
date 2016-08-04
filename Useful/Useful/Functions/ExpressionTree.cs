@@ -5,8 +5,16 @@ using Useful.Other;
 
 namespace Useful.Functions
 {
+    /// <summary>
+    /// Class for creating Expression Trees from formulas.
+    /// </summary>
   public static class ExpressionTree
   {
+    
+    /// <summary>
+    /// Create TreeNode from a given formula.
+    /// </summary>
+    /// <param name="formula">Equation to parse</param>
     public static TreeNode ParseToTree(string formula)
     {
       Onp onp = new Onp();
@@ -47,7 +55,12 @@ namespace Useful.Functions
       }
       return treeNodeList[treeNodeList.Count - 1];
     }
-
+    
+    /// <summary>
+    /// Create TreeNode from a given formula and RPN object.
+    /// </summary>
+    /// <param name="formula">Equation to parse</param>
+    /// <param name="o">RPN object used for parsing</param>
     public static TreeNode ParseToTree(string formula, Onp o)
     {
       Queue<string> stringQueue = o.Parse(formula);
@@ -87,7 +100,12 @@ namespace Useful.Functions
       }
       return treeNodeList[treeNodeList.Count - 1];
     }
-
+    
+    /// <summary>
+    /// Calculates tree and returns the result.
+    /// </summary>
+    /// <param name="q">TreeNode with formula</param>
+    /// <param name="x">Variable dictionary</param>
     public static double SolveTree(TreeNode q, Dictionary<char, double> x)
     {
       if (q.Element.Length == 1 && x.ContainsKey(q.Element[0]))
@@ -184,6 +202,11 @@ namespace Useful.Functions
       return result;
     }
 
+    /// <summary>
+    /// Calculates tree and returns the result.
+    /// </summary>
+    /// <param name="q">TreeNode with formula</param>
+    /// <param name="x">Variable to insert</param>
     public static double SolveTree(TreeNode q, double x)
     {
       if (q.Element.Length == 1 && q.Element[0] == 120)
@@ -279,7 +302,11 @@ namespace Useful.Functions
       }
       return result;
     }
-
+    
+    /// <summary>
+    /// Optimizes tree, precalculating numbers. Returns optimized Tree.
+    /// </summary>
+    /// <param name="q">TreeNode to optimize</param>
     public static TreeNode Optimize(TreeNode q)
     {
       for (int index = 0; index < q.Leafs.Count; ++index)

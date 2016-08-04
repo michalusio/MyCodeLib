@@ -5,14 +5,23 @@ using System.Threading;
 
 namespace Useful.Other
 {
+/// <summary>
+/// Class containing useful functions.
+/// </summary>
   public static class MMath
   {
+        /// <summary>
+        /// Number format formatting with dots and 5 decimal places.
+        /// </summary>
         public static readonly NumberFormatInfo Nfi = new NumberFormatInfo()
         {
           NumberDecimalSeparator = ".",
           NumberDecimalDigits = 5
         };
 
+        /// <summary>
+        /// Ready random generator.
+        /// </summary>
         public static Random Rnd { get; private set; }
 
         static MMath()
@@ -20,6 +29,12 @@ namespace Useful.Other
           Rnd = new Random();
         }
 
+        /// <summary>
+        /// Convert hsv color to rgb color.
+        /// </summary>
+        /// <param name="h">Hue</param>
+        /// <param name="s">Saturation</param>
+        /// <param name="v">Value</param>
         public static Color HsvToRgb(double h, double s, double v)
         {
           double num1 = Mod(h, 360.0);
@@ -100,30 +115,43 @@ namespace Useful.Other
           return Color.FromArgb(Clamp((int) (num4 * byte.MaxValue), 0, byte.MaxValue), Clamp((int) (num3 * byte.MaxValue), 0, byte.MaxValue), Clamp((int) (num2 * byte.MaxValue), 0, byte.MaxValue));
         }
 
+        /// <summary>
+        /// Clamps an int to a range.
+        /// </summary>
+        /// <param name="i">Argument to clamp</param>
+        /// <param name="min">Minimum of range</param>
+        /// <param name="max">Maximum of range</param>
         public static int Clamp(int i, int min, int max)
         {
-          if (i < min)
-            return min;
-          if (i <= max)
-            return i;
-          return max;
+            return i < min ? min : (i <= max ? i : max);
         }
 
+        /// <summary>
+        /// Quickly check if object is a numeric.
+        /// </summary>
+        /// <param name="expression">Object to check</param>
         public static bool IsNumeric(object expression)
         {
           double result;
           return double.TryParse(Convert.ToString(expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo, out result);
         }
 
-        public static float Clamp(float i, float min, float max)
+        /// <summary>
+        /// Clamps a float to a range.
+        /// </summary>
+        /// <param name="f">Argument to clamp</param>
+        /// <param name="min">Minimum of range</param>
+        /// <param name="max">Maximum of range</param>
+        public static float Clamp(float f, float min, float max)
         {
-          if (i < (double) min)
-            return min;
-          if (i <= (double) max)
-            return i;
-          return max;
+            return f < (double) min ? min : (f <= (double) max ? f : max);
         }
 
+        /// <summary>
+        /// Cuts off some starting bytes of an array.
+        /// </summary>
+        /// <param name="startIndex">Index to start new array from</param>
+        /// <param name="buffer">Array to cut from</param>
         public static byte[] SubBytes(int startIndex, byte[] buffer)
         {
           byte[] numArray = new byte[buffer.Length - startIndex];
@@ -131,6 +159,11 @@ namespace Useful.Other
           return numArray;
         }
 
+        /// <summary>
+        /// Extract two-byte-char null-terminater string from a given byte array.
+        /// </summary>
+        /// <param name="startIndex">Index of start of a string</param>
+        /// <param name="buffer">Array to extract from</param>
         public static byte[] ExtractStringBytes(int startIndex, byte[] buffer)
         {
           byte[] numArray = null;
@@ -148,6 +181,10 @@ namespace Useful.Other
           return numArray;
         }
 
+        /// <summary>
+        /// Calculates power of two, allowing negative indexes.
+        /// </summary>
+        /// <param name="a">2's power</param>
         public static double PowerTwo(int a)
         {
           if (a >= 0)
@@ -155,47 +192,74 @@ namespace Useful.Other
           return 1.0 / (1 << -a);
         }
 
+        /// <summary>
+        /// Calculate modulo of two real numbers.
+        /// </summary>
+        /// <param name="a">Dividend</param>
+        /// <param name="b">Divisor</param>
         public static double Mod(double a, double b)
         {
           return a - b * Math.Floor(a / b);
         }
 
+        /// <summary>
+        /// Sets new random seed.
+        /// </summary>
+        /// <param name="seed">New seed to use</param>
         public static void SetGaussSeed(int seed)
         {
           Rnd = new Random(seed);
         }
 
+        /// <summary>
+        /// Returns normally-distributed random number with average of 0 and deviation of 1.
+        /// </summary>
         public static double NextGaussian()
         {
           return Math.Sqrt(-2.0 * Math.Log(Rnd.NextDouble())) * Math.Cos(2.0 * Math.PI * Rnd.NextDouble());
         }
 
+        /// <summary>
+        /// Returns normally-distributed random number with given average and deviation.
+        /// </summary>
+        /// <param name="o">Standard deviation</param>
+        /// <param name="u">Average</param>
         public static double NextGaussian(double o, double u)
         {
           return NextGaussian() * o + u;
         }
 
-        public static double Add(ref double location1, double value)
+        /// <summary>
+        /// Thread-safely adds a value to a double variable.
+        /// </summary>
+        /// <param name="variable">Variable to add to</param>
+        /// <param name="value">Value to add</param>
+        public static double Add(ref double variable, double value)
         {
             double newCurrentValue = 0;
             while (true)
             {
                 double currentValue = newCurrentValue;
                 double newValue = currentValue + value;
-                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+                newCurrentValue = Interlocked.CompareExchange(ref variable, newValue, currentValue);
                 if (Math.Abs(newCurrentValue - currentValue) < 0.000001)
                     return newValue;
             }
         }
 
-        public static float Add(ref float location1, float value)
+        /// <summary>
+        /// Thread-safely adds a value to a float variable.
+        /// </summary>
+        /// <param name="variable">Variable to add to</param>
+        /// <param name="value">Value to add</param>
+        public static float Add(ref float variable, float value)
         {
             float newCurrentValue = 0;
             while (true)
             {
                 float currentValue = newCurrentValue;
                 float newValue = currentValue + value;
-                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+                newCurrentValue = Interlocked.CompareExchange(ref variable, newValue, currentValue);
                 if (Math.Abs(newCurrentValue - currentValue) < 0.000001f)
                     return newValue;
             }

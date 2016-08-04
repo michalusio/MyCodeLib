@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Useful.DataStructures
 {
   ///<summary>
-  /// Class utilizing the min-max heap data structure
+  /// Class utilizing the min-max heap data structure.
   ///</summary>
   public class Heap<T>
   {
@@ -13,19 +13,18 @@ namespace Useful.DataStructures
     private HeapNode<T>[] _nodes;
     
     /// <summary>
-    /// Set if heap is min-heap or max-heap
+    /// Set if heap is min-heap or max-heap.
     /// </summary>
     public bool MinHeap;
 
     /// <summary>
-    ///Retrieve how many items are in the heap
+    ///Retrieve how many items are in the heap.
     /// </summary>
     public int Count => _c - 1;
 
     ///<summary>
-    /// Get/Set maximum capacity of base array
+    /// Get/Set maximum capacity of base array.
     ///</summary>
-    ///<exception cref="IndexOutOfRangeException">Data loss while resizing heap</exception>
     public int Capacity
     {
       get
@@ -43,10 +42,9 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Retrieves heap node like in an array
+    /// Retrieves heap node like in an array.
     /// </summary>
     /// <param name="i">Index of node</param>
-    /// <returns>Heap Node containing sort value and object</returns>
     public HeapNode<T> this[int i]
     {
       get
@@ -60,7 +58,7 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Initializes heap with initial capacity of 10 elements
+    /// Initializes heap with initial capacity of 10 elements.
     /// </summary>
     public Heap()
     {
@@ -68,7 +66,7 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Initializes heap with given initial capacity clamped to 10+
+    /// Initializes heap with given initial capacity clamped to 10+ elements.
     /// </summary>
     /// <param name="capacity">Initial capacity</param>
     public Heap(int capacity)
@@ -77,7 +75,7 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Add object to heap and situate it in its place
+    /// Add object to heap and situate it in its place.
     /// </summary>
     /// <param name="Object">Added object</param>
     /// <param name="priority">Priority of said object</param>
@@ -133,11 +131,10 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Retrieves first object in a heap
-    /// If heap is min-heap, then the object has minimum priority
-    /// If heap is max-heap, then the object has maximum priority
+    /// Retrieves first object in a heap.
+    /// If heap is min-heap, then the object has minimum priority.
+    /// If heap is max-heap, then the object has maximum priority.
     /// </summary>
-    /// <returns>Heap node containing object and its priority</returns>
     public HeapNode<T> PopFirst()
     {
       HeapNode<T> heapNode = _nodes[1];
@@ -152,18 +149,17 @@ namespace Useful.DataStructures
     }
     
     /// <summary>
-    /// Checks if object is contained in heap
-    /// Uses HashSet for quick checking
+    /// Checks if object is contained in heap.
+    /// Uses HashSet for quick checking.
     /// </summary>
     /// <param name="neighbor">Object to check</param>
-    /// <returns><c>true</c>- if the object is in the heap, <c>false</c> otherwise</returns>
     public bool Contains(T neighbor)
     {
       return _containing.Contains(neighbor);
     }
     
     /// <summary>
-    /// Clears the heap
+    /// Clears the heap.
     /// </summary>
     public void Clear()
     {

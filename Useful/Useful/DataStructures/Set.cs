@@ -1,23 +1,22 @@
 ﻿namespace Useful.DataStructures
 {
   /// <summary>
-  /// Class made for quick discrete sets management
+  /// Class made for quick discrete sets management.
   /// </summary>
   /// <typeparam name="T">Type of stored objects</typeparam>
   public class Set<T>
   {
     private Set<T> _parent;
     /// <summary>
-    /// Object contained within this set
+    /// Object contained within this set.
     /// </summary>
     public T Element;
     private int _rank;
     
     /// <summary>
-    /// Creates set containing a single element
+    /// Creates set containing a single element.
     /// </summary>
     /// <param name="element">Object to make set from</param>
-    /// <returns>Set object containing said element</returns>
     public static Set<T> MakeSet(T element)
     {
         Set<T> set = new Set<T>
@@ -30,7 +29,7 @@
     }
     
     /// <summary>
-    /// Connects two sets
+    /// Connects two sets.
     /// </summary>
     /// <param name="y">Second set to connect with</param>
     public void Union(Set<T> y)
@@ -53,10 +52,9 @@
     }
     
     /// <summary>
-    /// Finds representator of given set
+    /// Finds representator of given set.
     /// </summary>
     /// <param name="x">Set to get representator from</param>
-    /// <returns>Representator for checking containing</returns>
     public Set<T> Find(Set<T> x)
     {
       if (x._parent != x)

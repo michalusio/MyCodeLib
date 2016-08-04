@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Useful.Other
 {
+    /// <summary>
+    /// Class to save bitmaps from pixel arrays.
+    /// </summary>
   public static class Bmp
   {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -19,7 +22,13 @@ namespace Useful.Other
     {
       raf.Write(BitConverter.GetBytes(s), 0, 2);
     }
-
+    
+    /// <summary>
+    /// Saves given array to bitmap with given width.
+    /// </summary>
+    /// <param name="path">Path to save the bitmap to</param>
+    /// <param name="array">Array of pixels to save</param>
+    /// <param name="w">Width of bitmap</param>
     public static void Save(string path, Pixel[] array, int w)
     {
       try
@@ -73,14 +82,19 @@ namespace Useful.Other
         Console.WriteLine(ex.Message);
       }
     }
-
+    
+    /// <summary>
+    /// Encodes pixel array as colors with alpha as the length of given color.
+    /// </summary>
+    /// <param name="array">Pixel array to encode</param>
+    /// <param name="factor">Difference factor for splitting</param>
+    /// <returns></returns>
     public static Color[] Encode(Pixel[] array, int factor)
     {
       List<Color> colorList = new List<Color>();
       Pixel pixel1 = array[0];
-      int index = 1;
       int alpha = 0;
-      for (; index < array.Length; ++index)
+      for (int index=1; index < array.Length; ++index)
       {
         Pixel pixel2 = array[index];
         if (Math.Abs(pixel2.R - pixel1.R) + Math.Abs(pixel2.B - pixel1.B) + Math.Abs(pixel2.G - pixel1.G) > factor)

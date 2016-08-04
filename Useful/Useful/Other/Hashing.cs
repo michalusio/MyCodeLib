@@ -2,10 +2,17 @@
 
 namespace Useful.Other
 {
+/// <summary>
+/// Class to calculate hash of string using Pearson hashing.
+/// </summary>
   public static class Hashing
   {
     private static readonly byte[] _ = new byte[256];
 
+    /// <summary>
+    /// Permute hashing table to guarantee random hashing.
+    /// </summary>
+    /// <param name="rnd">Random generator used in permuting</param>
     public static void Permute(Random rnd)
     {
       for (var index = 0; index < 256; ++index)
@@ -18,15 +25,24 @@ namespace Useful.Other
         _[num1] = num2;
       }
     }
-
-    public static byte PearsonB(string str, byte h)
+    
+    /// <summary>
+    /// Calculate byte hash of a string.
+    /// </summary>
+    /// <param name="str">String to hash</param>
+    public static byte PearsonB(string str)
     {
+      var h=_[str[0]];
       for (var index = 1; index < str.Length; ++index)
         h = _[h ^ str[index]];
       return h;
     }
-
-    public static short PearsonS(string str)
+    
+    /// <summary>
+    /// Calculate 2 byte hash of a string.
+    /// </summary>
+    /// <param name="str">String to hash</param>
+    public static ushort PearsonS(string str)
     {
       var num1 = (byte) str[0];
       var num2 = (byte) (str[0] + 1 & byte.MaxValue);
@@ -35,10 +51,14 @@ namespace Useful.Other
         num1 = _[num1 ^ str[index]];
         num2 = _[num2 ^ str[index]];
       }
-      return (short) ((num2 << 8) + num1);
+      return (ushort) ((num2 << 8) + num1);
     }
-
-    public static int PearsonI(string str)
+    
+    /// <summary>
+    /// Calculate 4 byte hash of a string.
+    /// </summary>
+    /// <param name="str">String to hash</param>
+    public static uint PearsonI(string str)
     {
       var num1 = (byte) str[0];
       var num2 = (byte) (str[0] + 1 & byte.MaxValue);
@@ -51,10 +71,14 @@ namespace Useful.Other
         num3 = _[num3 ^ str[index]];
         num4 = _[num4 ^ str[index]];
       }
-      return (num4 << 24) + (num3 << 16) + (num2 << 8) + num1;
+      return (uint) ((num4 << 24) + (num3 << 16) + (num2 << 8) + num1);
     }
-
-    public static long PearsonL(string str)
+    
+    /// <summary>
+    /// Calculate 8 byte hash of a string.
+    /// </summary>
+    /// <param name="str">String to hash</param>
+    public static ulong PearsonL(string str)
     {
       var num1 = (byte) str[0];
       var num2 = (byte) (str[0] + 1 & byte.MaxValue);
@@ -75,7 +99,9 @@ namespace Useful.Other
         num7 = _[num7 ^ str[index]];
         num8 = _[num8 ^ str[index]];
       }
-      return (num8 << 24) + (num7 << 16) + (num6 << 8) + num5 + (num4 << 24) + (num3 << 16) + (num2 << 8) + num1;
+      return (ulong) ((num8 << 24) + (num7 << 16) + (num6 << 8) + num5 + (num4 << 24) + (num3 << 16) + (num2 << 8) + num1);
     }
+    
+    //TODO: PearsonX for hashing string into byte array
   }
 }
