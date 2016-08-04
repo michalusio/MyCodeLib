@@ -6,15 +6,25 @@ using System.Text;
 
 namespace Useful.Other
 {
+    /// <summary>
+    /// Class utilising a Tcp server connections.
+    /// </summary>
   public class NetHandlerServer
   {
     private readonly List<Socket> _sockets = new List<Socket>(10);
     private TcpListener _listener;
-
+    /// <summary>
+    /// Is server open?
+    /// </summary>
     public bool Opened { get; private set; }
-
+    /// <summary>
+    /// IP of a server.
+    /// </summary>
     public string Ip { get; private set; }
-
+    /// <summary>
+    /// Check if ClientId is connected to server.
+    /// </summary>
+    /// <param name="id">ID of a client to check</param>
     public bool Connected(int id)
     {
       if (_sockets[id] == null)
@@ -23,8 +33,17 @@ namespace Useful.Other
         return (uint) _sockets[id].Available > 0U;
       return true;
     }
-
-    public int Open(int port)
+        /// <summary>
+        /// Open a server on given port.
+        /// <para>Returns:
+        /// <para> 0: if everything went good.</para>
+        /// <para>-1: if IPAddress could not be received.</para>
+        /// <para>-2: if port is not vacant.</para>
+        /// <para>-3: if listening could not be started.</para>
+        /// </para>
+        /// </summary>
+        /// <param name="port">Port to open a server (1024-65535)</param>
+        public int Open(short port)
     {
       IPAddress localaddr;
       try
@@ -62,6 +81,14 @@ namespace Useful.Other
       return 0;
     }
 
+    /// <summary>
+    /// Accept pending connection requests.
+    /// <para>Returns:
+    /// <para>-1: if there were no connections.</para>
+    /// <para>-2: if there was connection error.</para>
+    /// <para>Default: returns new client's number</para>
+    /// </para>
+    /// </summary>
     public int AcceptPending()
     {
       if (!_listener.Pending())
@@ -78,7 +105,11 @@ namespace Useful.Other
         return -2;
       }
     }
-
+    
+    /// <summary>
+    /// Updates clients, removing not connected ones.
+    /// Returns list containing all connected client numbers.
+    /// </summary>
     public List<int> UpdateSockets()
     {
       List<int> intList = new List<int>();
@@ -93,7 +124,10 @@ namespace Useful.Other
       }
       return intList;
     }
-
+    
+    /// <summary>
+    /// Closes the server connection, disconnecting every client.
+    /// </summary>
     public void Close()
     {
       foreach (Socket socket in _sockets)
@@ -103,18 +137,32 @@ namespace Useful.Other
         _listener = null;
       Opened = false;
     }
-
+    
+    /// <summary>
+    /// Sends raw byte array to given client.
+    /// </summary>
+    /// <param name="client">ID of a client to send the data to</param>
+    /// <param name="data">Byte array to be sent</param>
     public void SendRaw(int client, byte[] data)
     {
       _sockets[client].Send(data);
     }
-
+    
+    /// <summary>
+    /// Send raw byte array to all clients.
+    /// </summary>
+    /// <param name="data">Byte array to be sent</param>
     public void SendRawAll(byte[] data)
     {
       foreach (Socket socket in _sockets)
         socket.Send(data);
     }
-
+    
+    /// <summary>
+    /// Sends byte array to any clients but given.
+    /// </summary>
+    /// <param name="client">ID of a client who is not receiving the data.</param>
+    /// <param name="data">Byte array to be sent</param>
     public void SendRawAllBut(int client, byte[] data)
     {
       for (int index = 0; index < _sockets.Count; ++index)
