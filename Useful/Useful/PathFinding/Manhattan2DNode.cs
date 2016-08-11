@@ -5,7 +5,7 @@ namespace Useful.PathFinding
 {
   public class Manhattan2DNode : MainNode,IAreaNode
   {
-    public static Manhattan2DNode[][] Map;
+    public static Manhattan2DNode[,] Map;
     public byte Wall;
     public static bool CanDiagonal;
 
@@ -19,7 +19,7 @@ namespace Useful.PathFinding
     {
     }
 
-    public Manhattan2DNode(short x, short y,Manhattan2DNode[][] tab)
+    public Manhattan2DNode(short x, short y,Manhattan2DNode[,] tab)
     {
           X = x;
           Y = y;
@@ -34,31 +34,31 @@ namespace Useful.PathFinding
     internal override IEnumerable<MainNode> GetNeighbors()
     {
       List<Manhattan2DNode> manhattan2DnodeList = new List<Manhattan2DNode>();
-      if (InBounds(X + 1, Y) && Map[X + 1][Y].Wall!=0xFF)
-        manhattan2DnodeList.Add(Map[X + 1][Y]);
-      if (InBounds(X - 1, Y) && Map[X - 1][Y].Wall != 0xFF)
-        manhattan2DnodeList.Add(Map[X - 1][Y]);
-      if (InBounds(X, Y + 1) && Map[X][Y + 1].Wall != 0xFF)
-        manhattan2DnodeList.Add(Map[X][Y + 1]);
-      if (InBounds(X, Y - 1) && Map[X][Y - 1].Wall != 0xFF)
-        manhattan2DnodeList.Add(Map[X][Y - 1]);
+      if (InBounds(X + 1, Y) && Map[X + 1,Y].Wall!=0xFF)
+        manhattan2DnodeList.Add(Map[X + 1,Y]);
+      if (InBounds(X - 1, Y) && Map[X - 1,Y].Wall != 0xFF)
+        manhattan2DnodeList.Add(Map[X - 1,Y]);
+      if (InBounds(X, Y + 1) && Map[X,Y + 1].Wall != 0xFF)
+        manhattan2DnodeList.Add(Map[X,Y + 1]);
+      if (InBounds(X, Y - 1) && Map[X,Y - 1].Wall != 0xFF)
+        manhattan2DnodeList.Add(Map[X,Y - 1]);
       if (CanDiagonal)
       {
-        if (InBounds(X + 1, Y + 1) && Map[X + 1][Y + 1].Wall != 0xFF)
-          manhattan2DnodeList.Add(Map[X + 1][Y + 1]);
-        if (InBounds(X - 1, Y - 1) && Map[X - 1][Y - 1].Wall != 0xFF)
-          manhattan2DnodeList.Add(Map[X - 1][Y - 1]);
-        if (InBounds(X - 1, Y + 1) && Map[X - 1][Y + 1].Wall != 0xFF)
-          manhattan2DnodeList.Add(Map[X - 1][Y + 1]);
-        if (InBounds(X + 1, Y - 1) && Map[X + 1][Y - 1].Wall != 0xFF)
-          manhattan2DnodeList.Add(Map[X + 1][Y - 1]);
+        if (InBounds(X + 1, Y + 1) && Map[X + 1,Y + 1].Wall != 0xFF)
+          manhattan2DnodeList.Add(Map[X + 1,Y + 1]);
+        if (InBounds(X - 1, Y - 1) && Map[X - 1,Y - 1].Wall != 0xFF)
+          manhattan2DnodeList.Add(Map[X - 1,Y - 1]);
+        if (InBounds(X - 1, Y + 1) && Map[X - 1,Y + 1].Wall != 0xFF)
+          manhattan2DnodeList.Add(Map[X - 1,Y + 1]);
+        if (InBounds(X + 1, Y - 1) && Map[X + 1,Y - 1].Wall != 0xFF)
+          manhattan2DnodeList.Add(Map[X + 1,Y - 1]);
       }
       return manhattan2DnodeList;
     }
 
     private bool InBounds(int x, int y)
     {
-        return x >= 0 && y >= 0 && x < Map.Length && y < Map[X].Length;
+        return x >= 0 && y >= 0 && x < Map.GetLength(0) && y < Map.GetLength(1);
     }
 
       public override bool NodeEqual(MainNode b)
