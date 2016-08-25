@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Useful.Other;
@@ -306,7 +307,7 @@ namespace Useful.Functions
           }
         }
         else
-          source.Push(double.Parse(str.Replace(".", ",")));
+          source.Push(double.Parse(str.Replace('.',',')));
       }
       if (source.Count() != 1)
         throw new Exception("Wrong number of operations!");
@@ -442,7 +443,7 @@ namespace Useful.Functions
           }
         }
         else
-          source.Push(double.Parse(str.Replace(".", ",")));
+          source.Push(double.Parse(str.Replace('.', ',')));
       }
       if (source.Count() != 1)
         throw new Exception("Wrong number of operations!");

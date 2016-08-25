@@ -5,7 +5,7 @@ namespace Useful.PathFinding
 {
   public class Manhattan2DNode : MainNode,IAreaNode
   {
-    public static Manhattan2DNode[,] Map;
+    public static IArray2D Map;
     public byte Wall;
     public static bool CanDiagonal;
 
@@ -19,7 +19,7 @@ namespace Useful.PathFinding
     {
     }
 
-    public Manhattan2DNode(short x, short y,Manhattan2DNode[,] tab)
+    public Manhattan2DNode(short x, short y,IArray2D tab)
     {
           X = x;
           Y = y;
@@ -56,9 +56,9 @@ namespace Useful.PathFinding
       return manhattan2DnodeList;
     }
 
-    private bool InBounds(int x, int y)
+    private static bool InBounds(int x, int y)
     {
-        return x >= 0 && y >= 0 && x < Map.GetLength(0) && y < Map.GetLength(1);
+        return Map.Bounds||(x >= 0 && y >= 0 && x < Map.GetLength(0) && y < Map.GetLength(1));
     }
 
       public override bool NodeEqual(MainNode b)

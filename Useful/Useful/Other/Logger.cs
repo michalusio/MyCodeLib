@@ -9,7 +9,11 @@ namespace Useful.Other
 /// Simple Logger class
 /// </summary>
   public static class Logger
-  {
+{
+    /// <summary>
+    /// Write all messages to console.
+    /// </summary>
+    public static bool ConsoleOut = true;
     /// <summary>
     /// Prefix with full format datetime or short format/
     /// </summary>
@@ -31,9 +35,14 @@ namespace Useful.Other
     public static void Log(object o,bool deep)
     {
         if (!DeepLog && deep) return;
-        var str = "[" + (FullTime ? DateTime.Now.ToLongTimeString() : DateTime.Now.ToShortTimeString()) + "]  " + o;
-        Console.WriteLine(str);
-        Logs.Add(str);
+        var lines = o.ToString().Split('\n');
+        var str = "[" + (FullTime ? DateTime.Now.ToLongTimeString() : DateTime.Now.ToShortTimeString()) + "]  ";
+        foreach (var l in lines)
+        {
+            var s = str + l;
+            if (ConsoleOut) Console.WriteLine(s);
+            Logs.Add(s);
+        }
     }
     
     /// <summary>
