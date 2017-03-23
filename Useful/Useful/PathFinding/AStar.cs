@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Useful.DataStructures;
 using Useful.Other;
 
@@ -13,17 +14,19 @@ namespace Useful.PathFinding
     /// <typeparam name="T">Node type implementing MainNode abstract class</typeparam>
     public static class Pathing<T> where T : MainNode
     {
-        private static readonly Heap<T> Open = new Heap<T> {MinHeap = true};
-        private static readonly HashSet<T> Closed = new HashSet<T>();
-        private static double _at,_dt;
+        private static double _at;
+        private static double _dt;
+
         /// <summary>
         /// Time in milliseconds using A* algorithm.
         /// </summary>
         public static double AStarFindingTime => _at;
+
         /// <summary>
         /// Time in milliseconds using Dijkstra's algorithm.
         /// </summary>
         public static double DijkstraFindingTime => _dt;
+
         /// <summary>
         /// Resets algorithm times.
         /// </summary>
@@ -35,45 +38,51 @@ namespace Useful.PathFinding
         /// <summary>
         /// Performs path search using Dijkstra's algorithm for a given predicate.
         /// <para>Returns list of nodes from ending to starting node.</para>
-        /// <para>Returns null if there is not path to goal.</para>
+        /// <para>Returns null if there is no path to goal.</para>
         /// </summary>
         /// <param name="start">Starting node</param>
         /// <param name="targeting">Predicate distinguishing end nodes from the rest</param>
         /// <param name="limiter">Maximum length of path to search for</param>
-        public static List<T> Dijkstra(T start, Predicate<T> targeting,int limiter=int.MaxValue)
+        public static List<MainNode> Dijkstra(MainNode start, Predicate<MainNode> targeting, int limiter = int.MaxValue)
         {
-            Stopwatch s=Stopwatch.StartNew();
-            Open.Add(start, 0.0f);
-            while (Open.Count > 0)
+            if (start == null) return null;
+            Stopwatch s = Stopwatch.StartNew();
+            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
+            HashSet<MainNode> closed = new HashSet<MainNode>();
+            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
+            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            open.Add(start, 0.0f);
+            while (open.Count > 0)
             {
-                var current = Open.PopFirst().Object;
+                var current = open.PopFirst().Object;
                 if (targeting.Invoke(current))
                 {
-                    Open.Clear();
-                    Closed.Clear();
-                    var t=ToList(current);
+                    open.Clear();
+                    closed.Clear();
+                    var t = ToList(current, cameFrom);
                     s.Stop();
-                    MMath.Add(ref _dt, s.Elapsed.TotalMilliseconds);
+                    Add(ref _dt, s.Elapsed.TotalMilliseconds);
                     return t;
                 }
-                Closed.Add(current);
-                if (current.G > limiter) continue;
+                closed.Add(current);
+                if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    var num = current.G + current.Distance(neighbor);
-                    if ((Closed.Contains((T) neighbor) ||
-                         Open.Contains((T) neighbor)) && num >= neighbor.G) continue;
-                    neighbor.CameFrom = current;
-                    neighbor.G = num;
-                    if (!Open.Contains((T) neighbor)) Open.Add((T) neighbor, neighbor.G);
+                    var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
+                    if ((closed.Contains(neighbor) ||
+                         open.Contains(neighbor)) && num >= gs.GetValueOrDefault(neighbor, 0f)) continue;
+                    cameFrom[neighbor] = current;
+                    gs[neighbor] = num;
+                    if (!open.Contains(neighbor)) open.Add(neighbor, gs.GetValueOrDefault(neighbor, 0f));
                 }
             }
-            Open.Clear();
-            Closed.Clear();
+            open.Clear();
+            closed.Clear();
             s.Stop();
-            MMath.Add(ref _dt, s.Elapsed.TotalMilliseconds);
+            Add(ref _dt, s.Elapsed.TotalMilliseconds);
             return null;
         }
+
         /// <summary>
         /// Performs path search using A* algorithm for a given start and goal.
         /// <para>Returns list of nodes from ending to starting node.</para>
@@ -82,40 +91,46 @@ namespace Useful.PathFinding
         /// <param name="start">Starting node</param>
         /// <param name="goal">Ending node</param>
         /// <param name="limiter">Maximum length of path to search for</param>
-        public static List<T> AStar(T start, T goal,int limiter=int.MaxValue)
+        public static List<MainNode> AStar(MainNode start, MainNode goal, int limiter = int.MaxValue)
         {
+            if (goal == null || start == null) return null;
             Stopwatch s = Stopwatch.StartNew();
-            Open.Add(start, 0.0f);
-            while (Open.Count > 0)
+            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
+            HashSet<MainNode> closed = new HashSet<MainNode>();
+            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
+            Dictionary<MainNode, float> fs = new Dictionary<MainNode, float>();
+            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            open.Add(start, 0.0f);
+            while (open.Count > 0)
             {
-                var current = Open.PopFirst().Object;
+                var current = open.PopFirst().Object;
                 if (current.NodeEqual(goal))
                 {
-                    Open.Clear();
-                    Closed.Clear();
-                    var t = ToList(current);
+                    open.Clear();
+                    closed.Clear();
+                    var t = ToList(current, cameFrom);
                     s.Stop();
-                    MMath.Add(ref _at, s.Elapsed.TotalMilliseconds);
+                    Add(ref _at, s.Elapsed.TotalMilliseconds);
                     return t;
                 }
-                Closed.Add(current);
-                if (current.G > limiter) continue;
+                closed.Add(current);
+                if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    var num = current.G + current.Distance(neighbor);
-                    if ((Closed.Contains((T) neighbor) ||
-                         Open.Contains((T) neighbor)) && num >= neighbor.G) continue;
-                    neighbor.CameFrom = current;
-                    neighbor.G = num;
-                    neighbor.F = neighbor.G + neighbor.Heuristic(goal);
-                    if (!Open.Contains((T) neighbor))
-                        Open.Add((T) neighbor, neighbor.F);
+                    var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
+                    if ((closed.Contains(neighbor) ||
+                         open.Contains(neighbor)) && num >= gs.GetValueOrDefault(neighbor, 0f)) continue;
+                    cameFrom[(T) neighbor] = current;
+                    gs[(T)neighbor] = num;
+                    fs[(T)neighbor] = num + neighbor.Heuristic(goal);
+                    if (!open.Contains(neighbor))
+                        open.Add(neighbor, fs[neighbor]);
                 }
             }
-            Open.Clear();
-            Closed.Clear();
+            open.Clear();
+            closed.Clear();
             s.Stop();
-            MMath.Add(ref _at, s.Elapsed.TotalMilliseconds);
+            Add(ref _at, s.Elapsed.TotalMilliseconds);
             return null;
         }
         /// <summary>
@@ -126,54 +141,76 @@ namespace Useful.PathFinding
         /// <param name="start">Starting node</param>
         /// <param name="goals">List of ending nodes</param>
         /// <param name="limiter">Maximum length of path to search for</param>
-        public static List<T> MultiAStar(T start, List<T> goals,int limiter=int.MaxValue)
+        public static List<MainNode> MultiAStar(MainNode start, List<T> goals, int limiter = int.MaxValue)
         {
+            if (goals.All(g => g == null) || start == null) return null;
             Stopwatch s = Stopwatch.StartNew();
-            Open.Add(start, 0.0f);
-            while (Open.Count > 0)
+            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
+            HashSet<MainNode> closed = new HashSet<MainNode>();
+            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
+            Dictionary<MainNode, float> fs = new Dictionary<MainNode, float>();
+            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            open.Add(start, 0.0f);
+            while (open.Count > 0)
             {
-                var current = Open.PopFirst().Object;
+                var current = open.PopFirst().Object;
                 if (goals.Exists(t => current.NodeEqual(t)))
                 {
-                    Open.Clear();
-                    Closed.Clear();
-                    var t = ToList(current);
+                    open.Clear();
+                    closed.Clear();
+                    var t = ToList(current, cameFrom);
                     s.Stop();
-                    MMath.Add(ref _at, s.Elapsed.TotalMilliseconds);
+                    Add(ref _at, s.Elapsed.TotalMilliseconds);
                     return t;
                 }
-                Closed.Add(current);
-                if (current.G > limiter) continue;
+                closed.Add(current);
+                if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    var num = current.G + current.Distance(neighbor);
-                    if ((Closed.Contains((T) neighbor) ||
-                         Open.Contains((T) neighbor)) && num >= neighbor.G) continue;
-                    neighbor.CameFrom = current;
-                    neighbor.G = num;
-                    neighbor.F = neighbor.G + goals.Min(t => neighbor.Heuristic(t));
-                    if (!Open.Contains((T) neighbor))
-                        Open.Add((T) neighbor, neighbor.F);
+                    var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
+                    if ((closed.Contains(neighbor) ||
+                         open.Contains(neighbor)) && num >= gs.GetValueOrDefault(neighbor, 0f)) continue;
+                    cameFrom[neighbor] = current;
+                    gs[neighbor] = num;
+                    fs[neighbor] = gs[neighbor] + goals.Min(t => neighbor.Heuristic(t));
+                    if (!open.Contains(neighbor))
+                        open.Add(neighbor, fs[neighbor]);
                 }
             }
-            Open.Clear();
-            Closed.Clear();
+            open.Clear();
+            closed.Clear();
             s.Stop();
-            MMath.Add(ref _at, s.Elapsed.TotalMilliseconds);
+            Add(ref _at, s.Elapsed.TotalMilliseconds);
             return null;
         }
 
-        private static List<T> ToList(T current)
+        private static List<MainNode> ToList(MainNode current, IDictionary<MainNode, MainNode> cameFrom)
         {
-            var objList = new List<T>();
+            var objList = new List<MainNode>();
             while (current != null)
             {
                 objList.Add(current);
-                var obj = current;
-                current = (T) current.CameFrom;
-                obj.CameFrom = null;
+                current = cameFrom.GetValueOrDefault(current, null);
             }
             return objList;
+        }
+
+        /// <summary>
+        /// Thread-safely adds a value to a double variable.
+        /// </summary>
+        /// <param name="variable">Variable to add to</param>
+        /// <param name="value">Value to add</param>
+        private static void Add(ref double variable, double value)
+        {
+            double newCurrentValue = 0;
+            while (true)
+            {
+                double currentValue = newCurrentValue;
+                double newValue = currentValue + value;
+                newCurrentValue = Interlocked.CompareExchange(ref variable, newValue, currentValue);
+                if (Math.Abs(newCurrentValue - currentValue) < 0.000001)
+                    return;
+            }
         }
     }
 }

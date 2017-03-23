@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using Useful.Other;
 
 namespace Useful.Plotting.Projections
@@ -22,7 +22,7 @@ namespace Useful.Plotting.Projections
       foreach (PPoint3D point in p.GetPoints())
       {
         PPoint3D ppoint3D = point;
-        plot2D.AddPoint(new PPoint2D(ppoint3D.X / (1f - ppoint3D.Z), ppoint3D.Y / (1f - ppoint3D.Z), point.Color == Color.Empty ? MMath.HsvToRgb(360.0 * (point.Z - (double) p.MinZ) / (p.MaxZ - (double) p.MinZ), 1.0, 1.0) : point.Color, point.Visible));
+        plot2D.AddPoint(new PPoint2D(ppoint3D.X / (1f - ppoint3D.Z), ppoint3D.Y / (1f - ppoint3D.Z), point.Color == Color.Empty ? Extensions.HsvToRgb(360.0 * (point.Z - (double) p.MinZ) / (p.MaxZ - (double) p.MinZ), 1.0, 1.0) : point.Color, point.Visible));
       }
       return plot2D;
     }

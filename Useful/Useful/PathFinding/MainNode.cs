@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Useful.PathFinding
 {
@@ -7,12 +7,7 @@ namespace Useful.PathFinding
     /// </summary>
   public abstract class MainNode
   {
-    internal float G { get; set; }
-
-    internal float F { get; set; }
-
-    internal MainNode CameFrom { get; set; }
-
+    
     internal abstract IEnumerable<MainNode> GetNeighbors();
     
     /// <summary>

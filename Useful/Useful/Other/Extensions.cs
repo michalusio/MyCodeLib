@@ -1,6 +1,8 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 
 namespace Useful.Other
@@ -8,7 +10,7 @@ namespace Useful.Other
 /// <summary>
 /// Class containing useful functions.
 /// </summary>
-  public static class MMath
+  public static class Extensions
   {
         /// <summary>
         /// Number format formatting with dots and 5 decimal places.
@@ -24,9 +26,27 @@ namespace Useful.Other
         /// </summary>
         public static Random Rnd { get; private set; }
 
-        static MMath()
+        static Extensions()
         {
           Rnd = new Random();
+        }
+
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            TValue value;
+            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+        }
+
+        public static T MaxBy<T, R>(this IEnumerable<T> en, Func<T, R> evaluate) where R : IComparable<R>
+        {
+            return en.Select(t => new KeyValuePair<T, R>(t, evaluate(t)))
+                .Aggregate((max, next) => next.Value.CompareTo(max.Value) > 0 ? next : max).Key;
+        }
+
+        public static T MinBy<T, R>(this IEnumerable<T> en, Func<T, R> evaluate) where R : IComparable<R>
+        {
+            return en.Select(t => new KeyValuePair<T, R>(t, evaluate(t)))
+                .Aggregate((max, next) => next.Value.CompareTo(max.Value) < 0 ? next : max).Key;
         }
 
         /// <summary>

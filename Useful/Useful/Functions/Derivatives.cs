@@ -1,4 +1,4 @@
-﻿using Useful.Other;
+using Useful.Other;
 
 namespace Useful.Functions
 {
@@ -16,7 +16,7 @@ namespace Useful.Functions
     {
       if (q.Element.Length == 1 && q.Element[0] == x)
         return new TreeNode("1");
-      if (MMath.IsNumeric( q.Element))
+      if (Extensions.IsNumeric( q.Element))
         return new TreeNode("0");
       var s = q.Element;
       switch (s)

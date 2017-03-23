@@ -44,7 +44,7 @@
     <Compile Include="Other\Bmp.cs" />
     <Compile Include="Other\Pixel.cs" />
     <Compile Include="Other\Hashing.cs" />
-    <Compile Include="Other\MMath.cs" />
+    <Compile Include="Other\Extensions.cs" />
     <Compile Include="Other\Pool.cs" />
     <Compile Include="PathFinding\IArray2D.cs" />
     <Compile Include="Plotting\Figures.cs" />

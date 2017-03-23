@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -521,10 +521,10 @@ namespace Useful.Plotting
           {
             float x = (ppoint2D.X - num5) * num9 + num18;
             float y = (num8 - ppoint2D.Y) * num10 + num19;
-            if (Math.Abs(LinesH) > 4.20389539297445E-45 && MMath.Mod(_points[index].X, LinesH) < num15 || Math.Abs(LinesV) > 4.20389539297445E-45 && MMath.Mod(_points[index].Y, LinesV) < num16 || Math.Abs(LinesL) > 4.20389539297445E-45 && MMath.Mod(_points[index].Z, LinesL) < num17)
+            if (Math.Abs(LinesH) > 4.20389539297445E-45 && Extensions.Mod(_points[index].X, LinesH) < num15 || Math.Abs(LinesV) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Y, LinesV) < num16 || Math.Abs(LinesL) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Z, LinesL) < num17)
               graphics.FillEllipse(Brushes.Black, x, y, Size, Size);
             else if (ppoint2D.Color == Color.Empty)
-              graphics.FillEllipse(new SolidBrush(MMath.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num11, 1.0, 1.0)), x, y, Size, Size);
+              graphics.FillEllipse(new SolidBrush(Extensions.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num11, 1.0, 1.0)), x, y, Size, Size);
             else
               graphics.FillEllipse(new SolidBrush(ppoint2D.Color), x, y, Size, Size);
           }
@@ -581,10 +581,10 @@ namespace Useful.Plotting
           {
             float x = (ppoint2D.X - num1) * num5 + num14;
             float y = (num4 - ppoint2D.Y) * num6 + num15;
-            if (Math.Abs(LinesH) > 4.20389539297445E-45 && MMath.Mod(_points[index].X, LinesH) < num11 || Math.Abs(LinesV) > 4.20389539297445E-45 && MMath.Mod(_points[index].Y, LinesV) < num12 || Math.Abs(LinesL) > 4.20389539297445E-45 && MMath.Mod(_points[index].Z, LinesL) < num13)
+            if (Math.Abs(LinesH) > 4.20389539297445E-45 && Extensions.Mod(_points[index].X, LinesH) < num11 || Math.Abs(LinesV) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Y, LinesV) < num12 || Math.Abs(LinesL) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Z, LinesL) < num13)
               graphics.FillEllipse(Brushes.Black, x, y, Size, Size);
             else if (ppoint2D.Color == Color.Empty)
-              graphics.FillEllipse(new SolidBrush(MMath.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num7, 1.0, 1.0)), x, y, Size, Size);
+              graphics.FillEllipse(new SolidBrush(Extensions.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num7, 1.0, 1.0)), x, y, Size, Size);
             else
               graphics.FillEllipse(new SolidBrush(ppoint2D.Color), x, y, Size, Size);
           }
@@ -638,10 +638,10 @@ namespace Useful.Plotting
             float d = ColorLight(_points[index], comparer, light);
             float x = (ppoint2D.X - num1) * num5 + num14;
             float y = (num4 - ppoint2D.Y) * num6 + num15;
-            if (Math.Abs(LinesH) > 4.20389539297445E-45 && MMath.Mod(_points[index].X, LinesH) < num11 || Math.Abs(LinesV) > 4.20389539297445E-45 && MMath.Mod(_points[index].Y, LinesV) < num12 || Math.Abs(LinesL) > 4.20389539297445E-45 && MMath.Mod(_points[index].Z, LinesL) < num13)
+            if (Math.Abs(LinesH) > 4.20389539297445E-45 && Extensions.Mod(_points[index].X, LinesH) < num11 || Math.Abs(LinesV) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Y, LinesV) < num12 || Math.Abs(LinesL) > 4.20389539297445E-45 && Extensions.Mod(_points[index].Z, LinesL) < num13)
               graphics.FillEllipse(Brushes.Black, x, y, Size, Size);
             else if (ppoint2D.Color == Color.Empty)
-              graphics.FillEllipse(new SolidBrush(ColorMultiply(MMath.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num7, 1.0, 1.0), d)), x, y, Size, Size);
+              graphics.FillEllipse(new SolidBrush(ColorMultiply(Extensions.HsvToRgb(360.0 * (_points[index].Z - (double) MinZ) / num7, 1.0, 1.0), d)), x, y, Size, Size);
             else
               graphics.FillEllipse(new SolidBrush(ColorMultiply(ppoint2D.Color, d)), x, y, Size, Size);
           }

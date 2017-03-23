@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -196,7 +196,7 @@ namespace Useful.Functions
                 if (ch == 37)
                 {
                   double b = source.Pop();
-                  source.Push(MMath.Mod(source.Pop(), b));
+                  source.Push(Extensions.Mod(source.Pop(), b));
                 }
               }
               else
@@ -337,7 +337,7 @@ namespace Useful.Functions
               {
                 case '%':
                   double b = source.Pop();
-                  source.Push(MMath.Mod(source.Pop(), b));
+                  source.Push(Extensions.Mod(source.Pop(), b));
                   continue;
                 case '*':
                   source.Push(source.Pop() * source.Pop());

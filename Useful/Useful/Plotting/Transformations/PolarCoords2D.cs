@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Useful.Other;
 
@@ -16,7 +16,7 @@ namespace Useful.Plotting.Transformations
     public void Invert(ref PPoint2D point, List<PPoint2D> allPoints)
     {
       float num = (float) Math.Sqrt(point.X * (double) point.X + point.Y * (double) point.Y);
-      point.X = (float) MMath.Mod(Math.Atan2(point.Y, point.X), 2.0 * Math.PI);
+      point.X = (float) Extensions.Mod(Math.Atan2(point.Y, point.X), 2.0 * Math.PI);
       point.Y = num;
     }
   }

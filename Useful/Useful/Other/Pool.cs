@@ -32,7 +32,6 @@ namespace Useful.Other
             int a = _openpool[0];
             _openpool.RemoveAt(0);
             _takenpool.Add(a);
-            Logger.Log("Taking: " + a, false);
             return a;
         }
 
