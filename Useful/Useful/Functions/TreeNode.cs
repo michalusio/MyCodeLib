@@ -2,28 +2,29 @@
 
 namespace Useful.Functions
 {
-/// <summary>
-/// Class used to represent mathematical operations.
-/// </summary>
-  public class TreeNode
-  {
     /// <summary>
-    /// Leaf nodes connected with given element.
+    ///     Class used to represent mathematical operations.
     /// </summary>
-    public readonly List<TreeNode> Leafs = new List<TreeNode>();
-    /// <summary>
-    /// Element connecting this node.
-    /// </summary>
-    public string Element;
-
-    public TreeNode(string s)
+    public class TreeNode
     {
-      Element = s;
-    }
+        /// <summary>
+        ///     Leaf nodes connected with given element.
+        /// </summary>
+        public readonly List<TreeNode> Leafs = new List<TreeNode>();
 
-    public override string ToString()
-    {
-      return Element;
+        /// <summary>
+        ///     Element connecting this node.
+        /// </summary>
+        public string Element;
+
+        public TreeNode(string s)
+        {
+            Element = s;
+        }
+
+        public override string ToString()
+        {
+            return Element;
+        }
     }
-  }
 }

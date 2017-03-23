@@ -2,31 +2,31 @@
 
 namespace Useful.Plotting.Transformations
 {
-  public class Translation3D : INvertibleTransformation3D
-  {
-    public float X;
-    public float Y;
-    public float Z;
-
-    public Translation3D(float x, float y, float z)
+    public class Translation3D : INvertibleTransformation3D
     {
-      X = x;
-      Y = y;
-      Z = z;
-    }
+        public float X;
+        public float Y;
+        public float Z;
 
-    public void Transform(ref PPoint3D point, List<PPoint3D> allPoints)
-    {
-      point.X += X;
-      point.Y += Y;
-      point.Z += Z;
-    }
+        public Translation3D(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
 
-    public void Invert(ref PPoint3D point, List<PPoint3D> allPoints)
-    {
-      point.X -= X;
-      point.Y -= Y;
-      point.Z -= Z;
+        public void Transform(ref PPoint3D point, List<PPoint3D> allPoints)
+        {
+            point.X += X;
+            point.Y += Y;
+            point.Z += Z;
+        }
+
+        public void Invert(ref PPoint3D point, List<PPoint3D> allPoints)
+        {
+            point.X -= X;
+            point.Y -= Y;
+            point.Z -= Z;
+        }
     }
-  }
 }

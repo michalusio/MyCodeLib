@@ -2,8 +2,8 @@
 
 namespace Useful.Plotting.Transformations
 {
-  public interface ITransformation3D
-  {
-    void Transform(ref PPoint3D point, List<PPoint3D> allPoints);
-  }
+    public interface ITransformation3D
+    {
+        void Transform(ref PPoint3D point, List<PPoint3D> allPoints);
+    }
 }

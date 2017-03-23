@@ -4,18 +4,17 @@ namespace Useful.Other
 {
     public class Pool
     {
-        private readonly HashSet<int> _takenpool;
         private readonly List<int> _openpool;
+        private readonly HashSet<int> _takenpool;
         private int _max;
         public int Step;
+
         public Pool()
         {
-            _takenpool=new HashSet<int>();
-            _openpool=new List<int>();
-            for (int i = 0; i < Step; i++)
-            {
+            _takenpool = new HashSet<int>();
+            _openpool = new List<int>();
+            for (var i = 0; i < Step; i++)
                 _openpool.Add(i);
-            }
             _max = Step;
         }
 
@@ -23,13 +22,11 @@ namespace Useful.Other
         {
             if (_openpool.Count < 10)
             {
-                for (int i = _max; i < _max + Step; i++)
-                {
+                for (var i = _max; i < _max + Step; i++)
                     _openpool.Add(i);
-                }
                 _max += Step;
             }
-            int a = _openpool[0];
+            var a = _openpool[0];
             _openpool.RemoveAt(0);
             _takenpool.Add(a);
             return a;
@@ -40,13 +37,13 @@ namespace Useful.Other
             if (_takenpool.Contains(i))
             {
                 _takenpool.Remove(i);
-                int index = 0;
-                for (int j = 0; j < _openpool.Count; j++)
+                var index = 0;
+                for (var j = 0; j < _openpool.Count; j++)
                 {
                     index = j;
                     if (_openpool[j] > i) break;
                 }
-                _openpool.Insert(index,i);
+                _openpool.Insert(index, i);
             }
         }
     }

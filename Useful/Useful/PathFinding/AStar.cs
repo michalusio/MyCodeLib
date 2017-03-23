@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +9,7 @@ using Useful.Other;
 namespace Useful.PathFinding
 {
     /// <summary>
-    /// Class containing PathFinding algorithms
+    ///     Class containing PathFinding algorithms
     /// </summary>
     /// <typeparam name="T">Node type implementing MainNode abstract class</typeparam>
     public static class Pathing<T> where T : MainNode
@@ -18,27 +18,28 @@ namespace Useful.PathFinding
         private static double _dt;
 
         /// <summary>
-        /// Time in milliseconds using A* algorithm.
+        ///     Time in milliseconds using A* algorithm.
         /// </summary>
         public static double AStarFindingTime => _at;
 
         /// <summary>
-        /// Time in milliseconds using Dijkstra's algorithm.
+        ///     Time in milliseconds using Dijkstra's algorithm.
         /// </summary>
         public static double DijkstraFindingTime => _dt;
 
         /// <summary>
-        /// Resets algorithm times.
+        ///     Resets algorithm times.
         /// </summary>
         public static void ResetTimes()
         {
             _at = 0;
             _dt = 0;
         }
+
         /// <summary>
-        /// Performs path search using Dijkstra's algorithm for a given predicate.
-        /// <para>Returns list of nodes from ending to starting node.</para>
-        /// <para>Returns null if there is no path to goal.</para>
+        ///     Performs path search using Dijkstra's algorithm for a given predicate.
+        ///     <para>Returns list of nodes from ending to starting node.</para>
+        ///     <para>Returns null if there is no path to goal.</para>
         /// </summary>
         /// <param name="start">Starting node</param>
         /// <param name="targeting">Predicate distinguishing end nodes from the rest</param>
@@ -47,14 +48,14 @@ namespace Useful.PathFinding
         {
             if (start == null) return null;
             Stopwatch s = Stopwatch.StartNew();
-            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
-            HashSet<MainNode> closed = new HashSet<MainNode>();
-            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
-            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            var open = new Heap<MainNode> {MinHeap = true};
+            var closed = new HashSet<MainNode>();
+            var gs = new Dictionary<MainNode, float>();
+            var cameFrom = new Dictionary<MainNode, MainNode>();
             open.Add(start, 0.0f);
             while (open.Count > 0)
             {
-                var current = open.PopFirst().Object;
+                MainNode current = open.PopFirst().Object;
                 if (targeting.Invoke(current))
                 {
                     open.Clear();
@@ -66,7 +67,7 @@ namespace Useful.PathFinding
                 }
                 closed.Add(current);
                 if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
-                foreach (var neighbor in current.GetNeighbors())
+                foreach (MainNode neighbor in current.GetNeighbors())
                 {
                     var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
                     if ((closed.Contains(neighbor) ||
@@ -84,9 +85,9 @@ namespace Useful.PathFinding
         }
 
         /// <summary>
-        /// Performs path search using A* algorithm for a given start and goal.
-        /// <para>Returns list of nodes from ending to starting node.</para>
-        /// <para>Returns null if there is no path to goal.</para>
+        ///     Performs path search using A* algorithm for a given start and goal.
+        ///     <para>Returns list of nodes from ending to starting node.</para>
+        ///     <para>Returns null if there is no path to goal.</para>
         /// </summary>
         /// <param name="start">Starting node</param>
         /// <param name="goal">Ending node</param>
@@ -95,15 +96,15 @@ namespace Useful.PathFinding
         {
             if (goal == null || start == null) return null;
             Stopwatch s = Stopwatch.StartNew();
-            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
-            HashSet<MainNode> closed = new HashSet<MainNode>();
-            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
-            Dictionary<MainNode, float> fs = new Dictionary<MainNode, float>();
-            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            var open = new Heap<MainNode> {MinHeap = true};
+            var closed = new HashSet<MainNode>();
+            var gs = new Dictionary<MainNode, float>();
+            var fs = new Dictionary<MainNode, float>();
+            var cameFrom = new Dictionary<MainNode, MainNode>();
             open.Add(start, 0.0f);
             while (open.Count > 0)
             {
-                var current = open.PopFirst().Object;
+                MainNode current = open.PopFirst().Object;
                 if (current.NodeEqual(goal))
                 {
                     open.Clear();
@@ -115,14 +116,14 @@ namespace Useful.PathFinding
                 }
                 closed.Add(current);
                 if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
-                foreach (var neighbor in current.GetNeighbors())
+                foreach (MainNode neighbor in current.GetNeighbors())
                 {
                     var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
                     if ((closed.Contains(neighbor) ||
                          open.Contains(neighbor)) && num >= gs.GetValueOrDefault(neighbor, 0f)) continue;
                     cameFrom[(T) neighbor] = current;
-                    gs[(T)neighbor] = num;
-                    fs[(T)neighbor] = num + neighbor.Heuristic(goal);
+                    gs[(T) neighbor] = num;
+                    fs[(T) neighbor] = num + neighbor.Heuristic(goal);
                     if (!open.Contains(neighbor))
                         open.Add(neighbor, fs[neighbor]);
                 }
@@ -133,10 +134,11 @@ namespace Useful.PathFinding
             Add(ref _at, s.Elapsed.TotalMilliseconds);
             return null;
         }
+
         /// <summary>
-        /// Performs path search using A* algorithm for a given start and list of goals.
-        /// <para>Returns list of nodes from best ending node to starting node.</para>
-        /// <para>Returns null if there is no path to any of the goals.</para>
+        ///     Performs path search using A* algorithm for a given start and list of goals.
+        ///     <para>Returns list of nodes from best ending node to starting node.</para>
+        ///     <para>Returns null if there is no path to any of the goals.</para>
         /// </summary>
         /// <param name="start">Starting node</param>
         /// <param name="goals">List of ending nodes</param>
@@ -145,15 +147,15 @@ namespace Useful.PathFinding
         {
             if (goals.All(g => g == null) || start == null) return null;
             Stopwatch s = Stopwatch.StartNew();
-            Heap<MainNode> open = new Heap<MainNode> { MinHeap = true };
-            HashSet<MainNode> closed = new HashSet<MainNode>();
-            Dictionary<MainNode, float> gs = new Dictionary<MainNode, float>();
-            Dictionary<MainNode, float> fs = new Dictionary<MainNode, float>();
-            Dictionary<MainNode, MainNode> cameFrom = new Dictionary<MainNode, MainNode>();
+            var open = new Heap<MainNode> {MinHeap = true};
+            var closed = new HashSet<MainNode>();
+            var gs = new Dictionary<MainNode, float>();
+            var fs = new Dictionary<MainNode, float>();
+            var cameFrom = new Dictionary<MainNode, MainNode>();
             open.Add(start, 0.0f);
             while (open.Count > 0)
             {
-                var current = open.PopFirst().Object;
+                MainNode current = open.PopFirst().Object;
                 if (goals.Exists(t => current.NodeEqual(t)))
                 {
                     open.Clear();
@@ -165,7 +167,7 @@ namespace Useful.PathFinding
                 }
                 closed.Add(current);
                 if (gs.GetValueOrDefault(current, 0f) > limiter) continue;
-                foreach (var neighbor in current.GetNeighbors())
+                foreach (MainNode neighbor in current.GetNeighbors())
                 {
                     var num = gs.GetValueOrDefault(current, 0f) + current.Distance(neighbor);
                     if ((closed.Contains(neighbor) ||
@@ -196,7 +198,7 @@ namespace Useful.PathFinding
         }
 
         /// <summary>
-        /// Thread-safely adds a value to a double variable.
+        ///     Thread-safely adds a value to a double variable.
         /// </summary>
         /// <param name="variable">Variable to add to</param>
         /// <param name="value">Value to add</param>
@@ -205,8 +207,8 @@ namespace Useful.PathFinding
             double newCurrentValue = 0;
             while (true)
             {
-                double currentValue = newCurrentValue;
-                double newValue = currentValue + value;
+                var currentValue = newCurrentValue;
+                var newValue = currentValue + value;
                 newCurrentValue = Interlocked.CompareExchange(ref variable, newValue, currentValue);
                 if (Math.Abs(newCurrentValue - currentValue) < 0.000001)
                     return;
